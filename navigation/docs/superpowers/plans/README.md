@@ -9,6 +9,7 @@
 | [书签项目文档整理实施计划](2026-07-14-bookmark-documentation-consolidation.md) | 文档合同测试、主入口整理、文件职责说明和本地交付物清理 |
 | [本地开发环境实施计划](2026-07-21-local-development-environment.md) | 使用 uv 与 fnm 重建、锁定并验证独立开发环境 |
 | [SQLite 连接生命周期实施计划](2026-07-21-sqlite-connection-lifecycle.md) | 通过 TDD 修复原生 SQLite 与测试 engine 的资源释放 |
+| [GitHub 仓库加固实施计划](2026-07-21-github-repository-hardening.md) | Markdown 链接测试、核心 CI、首个 PR、main Ruleset、安全设置和门禁验收 |
 
 ## 阅读方式
 
