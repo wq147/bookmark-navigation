@@ -1,0 +1,6 @@
+name=bookmark-navigation
+version=2026.07.15-r1
+platform=linux/amd64
+image_repository=bookmark-navigation
+image_tag=0.2.0
+image_archive=image/bookmark-navigation-amd64.tar
