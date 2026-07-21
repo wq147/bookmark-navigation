@@ -192,7 +192,7 @@ def _make_fake_bundle(tmp_path: Path) -> tuple[Path, Path]:
     fake_stat.write_text(
         "#!/usr/bin/env bash\n"
         "target=${!#}\n"
-        "/usr/bin/stat -f %Lp \"$target\"\n"
+        "/usr/bin/python3 -c 'import os, stat, sys; print(oct(stat.S_IMODE(os.stat(sys.argv[1]).st_mode))[2:])' \"$target\"\n"
     )
     fake_stat.chmod(0o755)
 

@@ -444,3 +444,35 @@ def test_public_release_metadata_and_content_are_sanitized():
                 violations.append(f"{path.relative_to(BOOKMARK_ROOT)}: {token}")
 
     assert violations == []
+
+
+def test_core_ci_workflow_matches_the_repository_contract():
+    workflow = (BOOKMARK_ROOT / ".github/workflows/ci.yml").read_text()
+
+    for required in (
+        "name: Backend",
+        "name: Frontend",
+        "permissions:",
+        "contents: read",
+        'version: "0.11.30"',
+        'python-version: "3.13.14"',
+        "uv sync --extra test --frozen",
+        "python -W error -m pytest -q",
+        "bash -n navigation/deploy/navigation-ops.sh",
+        "node-version-file: .node-version",
+        "cache-dependency-path: navigation/frontend/package-lock.json",
+        "npm ci",
+        "npm test -- --run",
+        "npm run typecheck",
+        "npm run build",
+    ):
+        assert required in workflow
+
+    for excluded in (
+        "playwright",
+        "docker compose",
+        "bash navigation/release/build-offline-bundle.sh",
+        "pull-requests: write",
+        "contents: write",
+    ):
+        assert excluded not in workflow.lower()
