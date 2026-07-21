@@ -9,6 +9,7 @@
 | [书签项目文档整理设计](2026-07-14-bookmark-documentation-consolidation-design.md) | 唯一主入口、权威文档分工、历史记录保留和本地交付物边界 |
 | [本地开发环境设计](2026-07-21-local-development-environment-design.md) | uv、fnm、Python 与 Node.js 版本锁定及独立环境边界 |
 | [SQLite 连接生命周期修复设计](2026-07-21-sqlite-connection-lifecycle-design.md) | Python 3.13 资源警告、原生连接关闭和测试 engine 销毁策略 |
+| [GitHub 仓库加固设计](2026-07-21-github-repository-hardening-design.md) | 单人 PR 流程、核心 CI、main Ruleset、Dependabot 与私密漏洞报告策略 |
 
 ## 阅读方式
 
