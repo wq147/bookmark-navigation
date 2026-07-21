@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: Backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - name: Set up uv and Python
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+        with:
+          version: "0.11.30"
+          python-version: "3.13.14"
+          enable-cache: true
+          cache-dependency-glob: navigation/backend/uv.lock
+          working-directory: navigation/backend
+      - name: Install backend dependencies
+        working-directory: navigation/backend
+        run: uv sync --extra test --frozen
+      - name: Run backend tests
+        working-directory: navigation/backend
+        run: uv run --extra test --frozen python -W error -m pytest -q
+      - name: Validate shell scripts
+        run: >-
+          bash -n navigation/deploy/navigation-ops.sh
+          navigation/release/install.sh
+          navigation/release/build-offline-bundle.sh
+
+  frontend:
+    name: Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - name: Set up Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version-file: .node-version
+          cache: npm
+          cache-dependency-path: navigation/frontend/package-lock.json
+      - name: Install frontend dependencies
+        working-directory: navigation/frontend
+        run: npm ci
+      - name: Run frontend unit tests
+        working-directory: navigation/frontend
+        run: npm test -- --run
+      - name: Run frontend typecheck
+        working-directory: navigation/frontend
+        run: npm run typecheck
+      - name: Build frontend
+        working-directory: navigation/frontend
+        run: npm run build
