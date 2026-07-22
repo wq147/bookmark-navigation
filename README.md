@@ -32,3 +32,7 @@ fnm exec --using ../../.node-version npm run build
 发现安全问题时请遵循 [`SECURITY.md`](SECURITY.md)，不要在公开 Issue 中披露漏洞、凭据或私人书签数据。
 
 本项目采用 [`AGPL-3.0-only`](LICENSE) 许可证。修改后的网络服务向用户提供时，需要遵守 GNU Affero General Public License 第 3 版的相应源代码提供义务。
+
+## 贡献流程
+
+日常修改通过功能分支和 Pull Request 合并到 `main`。Pull Request 必须通过 `Backend` 与 `Frontend` 检查；Docker、Playwright E2E、部署和发布验证在对应的独立阶段执行。
