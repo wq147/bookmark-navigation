@@ -448,6 +448,9 @@ def test_public_release_metadata_and_content_are_sanitized():
 
 def test_core_ci_workflow_matches_the_repository_contract():
     workflow = (BOOKMARK_ROOT / ".github/workflows/ci.yml").read_text()
+    setup_uv_step = workflow.split("- name: Set up uv and Python", 1)[1].split(
+        "- name:", 1
+    )[0]
 
     for required in (
         "name: Backend",
@@ -476,3 +479,6 @@ def test_core_ci_workflow_matches_the_repository_contract():
         "contents: write",
     ):
         assert excluded not in workflow.lower()
+
+    assert "cache-dependency-glob: navigation/backend/uv.lock" in setup_uv_step
+    assert "working-directory:" not in setup_uv_step
